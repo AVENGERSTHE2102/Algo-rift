@@ -1,3 +1,4 @@
+import logo from '../../Gemini_Generated_Image_6lyq3x6lyq3x6lyq-removebg-preview.png';
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { navItems } from '../lib/navigation';
@@ -16,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children, isMapView }) => {
       <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between z-40">
         <div className="flex items-center space-x-3">
           <div className="w-16 h-16 rounded-lg flex items-center justify-center overflow-hidden">
-            <img src="/Gemini_Generated_Image_6lyq3x6lyq3x6lyq-removebg-preview.png" alt="Float Chat Logo" className="h-full w-full object-cover" />
+            <img src={logo} alt="Float Chat Logo" className="h-full w-full object-cover" />
           </div>
           <div>
             <h1 className="text-lg font-bold text-gray-900">Float Chat Platform</h1>
