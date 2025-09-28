@@ -4,6 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { 
+  DropdownMenu, 
+  DropdownMenuTrigger, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuSeparator 
+} from '@/components/ui/dropdown-menu';
+import { 
   Download, 
   FileText, 
   Database, 
@@ -17,7 +24,8 @@ import {
   Filter,
   Settings,
   FileSpreadsheet,
-  FileCode
+  FileCode,
+  ChevronDown
 } from 'lucide-react';
 import { mockArgoFloats, dashboardStats } from '@/lib/mockData';
 
@@ -26,6 +34,30 @@ export default function Export() {
   const [selectedFormat, setSelectedFormat] = useState<string>('netcdf');
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-01-31' });
   const [selectedParameters, setSelectedParameters] = useState<string[]>(['temperature', 'salinity']);
+  const [selectedRegion, setSelectedRegion] = useState<string[]>([]);
+
+  const regions = [
+    { id: 'default', name: 'Select a Region', disabled: true },
+    { id: 'pacific', name: 'Pacific Ocean' },
+    { id: 'atlantic', name: 'Atlantic Ocean' },
+    { id: 'indian', name: 'Indian Ocean' },
+    { id: 'southern', name: 'Southern Ocean' },
+    { id: 'arctic', name: 'Arctic Ocean' },
+    { id: 'mediterranean', name: 'Mediterranean Sea' },
+    { id: 'caribbean', name: 'Caribbean Sea' },
+    { id: 'south-china', name: 'South China Sea' },
+    { id: 'bering', name: 'Bering Sea' },
+    { id: 'gulf-of-mexico', name: 'Gulf of Mexico' },
+    { id: 'sea-of-japan', name: 'Sea of Japan' },
+    { id: 'hudson-bay', name: 'Hudson Bay' },
+    { id: 'east-china', name: 'East China Sea' },
+    { id: 'arabian', name: 'Arabian Sea' },
+    { id: 'red', name: 'Red Sea' },
+    { id: 'black', name: 'Black Sea' },
+    { id: 'north', name: 'North Sea' },
+    { id: 'baltic', name: 'Baltic Sea' },
+    { id: 'philippine', name: 'Philippine Sea' },
+  ];
 
   const exportFormats = [
     {
@@ -258,6 +290,76 @@ export default function Export() {
                 />
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Region Selection */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Globe className="h-5 w-5" />
+              <span>Region</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="w-full justify-between">
+                  <span>
+                    {selectedRegion.length === 0
+                      ? 'Select a Region'
+                      : selectedRegion.length === 1
+                      ? regions.find(r => r.id === selectedRegion[0])?.name
+                      : `${selectedRegion.length} regions selected`}
+                  </span>
+                  <ChevronDown className="h-4 w-4 opacity-50" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]">
+                <DropdownMenuItem
+                  onSelect={() => {
+                    if (selectedRegion.length === regions.length - 1) {
+                      setSelectedRegion([]);
+                    } else {
+                      setSelectedRegion(regions.filter(r => !r.disabled).map(r => r.id));
+                    }
+                  }}
+                >
+                  <label htmlFor="select-all" className="flex items-center w-full cursor-pointer">
+                    <Checkbox
+                      id="select-all"
+                      className="mr-2"
+                      checked={selectedRegion.length > 0 && selectedRegion.length === regions.length - 1}
+                      indeterminate={selectedRegion.length > 0 && selectedRegion.length < regions.length - 1}
+                    />
+                    Select All
+                  </label>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                {regions.filter(r => !r.disabled).map((region) => (
+                  <DropdownMenuItem
+                    key={region.id}
+                    onSelect={(e) => e.preventDefault()}
+                  >
+                    <label htmlFor={region.id} className="flex items-center w-full cursor-pointer">
+                      <Checkbox
+                        id={region.id}
+                        className="mr-2"
+                        checked={selectedRegion.includes(region.id)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setSelectedRegion([...selectedRegion, region.id]);
+                          } else {
+                            setSelectedRegion(selectedRegion.filter(id => id !== region.id));
+                          }
+                        }}
+                      />
+                      {region.name}
+                    </label>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </CardContent>
         </Card>
 
