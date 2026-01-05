@@ -1,6 +1,6 @@
 #  Algo-rift: Float Chat Platform
 
-[![SIH 2024](https://img.shields.io/badge/SIH-2024-blue.svg)](https://www.sih.gov.in/)
+[![SIH 2025](https://img.shields.io/badge/SIH-2024-blue.svg)](https://www.sih.gov.in/)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
